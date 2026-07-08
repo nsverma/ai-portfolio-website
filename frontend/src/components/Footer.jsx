@@ -13,7 +13,7 @@ export default function Footer() {
         </p>
         <div className="flex items-center gap-4 text-slate-400">
           <a href="https://github.com/nsverma" target="_blank" rel="noreferrer" className="hover:text-white transition-colors"><Github size={20} /></a>
-          <a href="https://linkedin.com/in/your-profile" target="_blank" rel="noreferrer" className="hover:text-white transition-colors"><Linkedin size={20} /></a>
+          <a href="https://www.linkedin.com/in/sudhanshu-verma-66695927/" target="_blank" rel="noreferrer" className="hover:text-white transition-colors"><Linkedin size={20} /></a>
           <a href="mailto:you@example.com" className="hover:text-white transition-colors"><Mail size={20} /></a>
         </div>
       </div>

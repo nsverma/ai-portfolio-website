@@ -30,8 +30,8 @@ export default function Contact() {
           <a href="mailto:you@example.com" className="glass-card p-4 flex items-center gap-3 !hover:translate-y-0">
             <Mail className="text-accent-cyan" size={20} /> you@example.com
           </a>
-          <a href="https://linkedin.com/in/your-profile" target="_blank" rel="noreferrer" className="glass-card p-4 flex items-center gap-3">
-            <Linkedin className="text-accent-cyan" size={20} /> linkedin.com/in/your-profile
+          <a href="https://www.linkedin.com/in/sudhanshu-verma-66695927/" target="_blank" rel="noreferrer" className="glass-card p-4 flex items-center gap-3">
+            <Linkedin className="text-accent-cyan" size={20} /> linkedin.com/in/sudhanshu-verma-66695927
           </a>
           <a href="https://github.com/nsverma" target="_blank" rel="noreferrer" className="glass-card p-4 flex items-center gap-3">
             <Github className="text-accent-cyan" size={20} /> github.com/nsverma

@@ -50,7 +50,7 @@ export default function HeroSection() {
           <a href="https://github.com/nsverma" target="_blank" rel="noreferrer" className="btn-secondary">
             <Github size={18} /> GitHub
           </a>
-          <a href="https://linkedin.com/in/your-profile" target="_blank" rel="noreferrer" className="btn-secondary">
+          <a href="https://www.linkedin.com/in/sudhanshu-verma-66695927/" target="_blank" rel="noreferrer" className="btn-secondary">
             <Linkedin size={18} /> LinkedIn
           </a>
         </motion.div>
