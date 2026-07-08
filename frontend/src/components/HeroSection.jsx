@@ -23,7 +23,7 @@ export default function HeroSection() {
           transition={{ delay: 0.1 }}
           className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight"
         >
-          Your Name<br />
+          Sudhanshu Verma<br />
           <span className="gradient-text">AI / Machine Learning Portfolio</span>
         </motion.h1>
 
