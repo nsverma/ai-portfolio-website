@@ -136,13 +136,13 @@ export default function DemoPanel({ slug }) {
       <div className="flex items-center gap-2 mb-1">
         <FlaskConical size={18} className="text-accent-purple" />
         <h3 className="font-bold text-white">Live Demo</h3>
-        <span className="badge !text-emerald-400 !border-emerald-400/30 ml-2">real trained model</span>
+        <span className="badge !text-emerald-400 !border-emerald-400/30 ml-2">{schema.badge || 'real trained model'}</span>
       </div>
       <p className="text-sm text-slate-400 mb-5">{schema.title}</p>
 
       <form onSubmit={submit} className="grid sm:grid-cols-2 gap-4">
         {schema.fields.map((f) => (
-          <label key={f.name} className={`flex flex-col gap-1.5 text-sm text-slate-300 ${['textarea', 'digit_canvas', 'image_choice'].includes(f.type) ? 'sm:col-span-2' : ''}`}>
+          <label key={f.name} className={`flex flex-col gap-1.5 text-sm text-slate-300 ${['textarea', 'digit_canvas', 'image_choice', 'info'].includes(f.type) ? 'sm:col-span-2' : ''}`}>
             <span className="font-medium">{f.label}</span>
             {f.type === 'number' && (
               <input

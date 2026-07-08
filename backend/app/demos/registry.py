@@ -696,8 +696,10 @@ DEMOS = {
 
 # AI-agent demos live in their own module (app/demos/agents.py).
 from app.demos.agents import AGENT_DEMOS  # noqa: E402
+from app.demos.automation import AUTOMATION_DEMOS  # noqa: E402
 
 DEMOS.update(AGENT_DEMOS)
+DEMOS.update(AUTOMATION_DEMOS)
 
 
 def get_schema(slug: str) -> dict | None:
@@ -712,8 +714,15 @@ def get_schema(slug: str) -> dict | None:
     from app.demos import exports
 
     plot_path = ARTIFACTS / "plots" / f"{slug}.png"
+    if slug in AUTOMATION_DEMOS:
+        badge = "live automation"
+    elif slug in AGENT_DEMOS:
+        badge = "live agent"
+    else:
+        badge = "real trained model"
     return {
         "slug": slug, "title": demo["title"], "cta": demo["cta"], "fields": fields,
+        "badge": badge,
         "dataset_url": f"/api/demos/{slug}/dataset" if exports.has_dataset(slug) else None,
         "evaluation_url": f"/api/demos/{slug}/evaluation" if plot_path.exists() else None,
         "evaluation_caption": _plot_captions().get(slug) if plot_path.exists() else None,
