@@ -24,7 +24,7 @@ export default function HeroSection() {
           className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight"
         >
           Sudhanshu Verma<br />
-          <span className="gradient-text">AI / Machine Learning Portfolio</span>
+          <span className="gradient-text">AI / Machine Learning</span>
         </motion.h1>
 
         <motion.p
