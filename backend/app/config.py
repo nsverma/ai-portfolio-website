@@ -18,6 +18,7 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
+        extra = "ignore"  # .env may hold keys for other modules (e.g. ANTHROPIC_API_KEY)
 
 
 settings = Settings()

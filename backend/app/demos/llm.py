@@ -7,6 +7,11 @@ official Anthropic SDK. Model can be overridden with DEMO_LLM_MODEL.
 
 import os
 from functools import lru_cache
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+load_dotenv(Path(__file__).parents[2] / ".env")
 
 MODEL = os.environ.get("DEMO_LLM_MODEL", "claude-opus-4-8")
 
