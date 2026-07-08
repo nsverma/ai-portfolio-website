@@ -48,6 +48,7 @@ def _train_torch(model, X, y, epochs, batch=128, lr=1e-3, X_val=None, y_val=None
     loader = DataLoader(TensorDataset(X, y), batch_size=batch, shuffle=True)
     opt = torch.optim.Adam(model.parameters(), lr=lr)
     loss_fn = nn.CrossEntropyLoss()
+    history = {"loss": [], "val_acc": []}
     for ep in range(epochs):
         model.train()
         total = 0.0
@@ -58,6 +59,7 @@ def _train_torch(model, X, y, epochs, batch=128, lr=1e-3, X_val=None, y_val=None
             loss.backward()
             opt.step()
             total += loss.item() * len(xb)
+        history["loss"].append(total / len(X))
         msg = f"  {name} epoch {ep + 1}/{epochs}: loss {total / len(X):.4f}"
         if X_val is not None:
             model.eval()
@@ -66,9 +68,10 @@ def _train_torch(model, X, y, epochs, batch=128, lr=1e-3, X_val=None, y_val=None
                 for i in range(0, len(X_val), 512):
                     preds.append(model(X_val[i:i + 512].to(DEVICE)).argmax(1).cpu())
                 acc = (torch.cat(preds) == y_val).float().mean().item()
+            history["val_acc"].append(acc)
             msg += f", val acc {acc:.3f}"
         print(msg)
-    return model.cpu()
+    return model.cpu(), history
 
 
 def _text_tensors(texts, labels, vocab):
@@ -84,10 +87,10 @@ def train_sentiment_rnn():
     n = int(len(X) * 0.9)
     idx = torch.randperm(len(X), generator=torch.Generator().manual_seed(0))
     model = TextRNN(len(vocab), 2, cell="rnn")
-    model = _train_torch(model, X[idx[:n]], y[idx[:n]], epochs=8,
-                         X_val=X[idx[n:]], y_val=y[idx[n:]], name="sentiment RNN")
+    model, history = _train_torch(model, X[idx[:n]], y[idx[:n]], epochs=8,
+                                  X_val=X[idx[n:]], y_val=y[idx[n:]], name="sentiment RNN")
     _save("sentiment_rnn", {"model": save_model(model), "vocab": vocab,
-                            "classes": ["negative", "positive"]})
+                            "classes": ["negative", "positive"], "history": history})
 
 
 def train_sentiment_lstm():
@@ -97,10 +100,10 @@ def train_sentiment_lstm():
     n = int(len(X) * 0.9)
     idx = torch.randperm(len(X), generator=torch.Generator().manual_seed(0))
     model = TextRNN(len(vocab), 3, cell="lstm")
-    model = _train_torch(model, X[idx[:n]], y[idx[:n]], epochs=8,
-                         X_val=X[idx[n:]], y_val=y[idx[n:]], name="sentiment LSTM")
+    model, history = _train_torch(model, X[idx[:n]], y[idx[:n]], epochs=8,
+                                  X_val=X[idx[n:]], y_val=y[idx[n:]], name="sentiment LSTM")
     _save("sentiment_lstm", {"model": save_model(model), "vocab": vocab,
-                             "classes": ["negative", "neutral", "positive"]})
+                             "classes": ["negative", "neutral", "positive"], "history": history})
 
 
 def train_topic_transformer():
@@ -110,10 +113,10 @@ def train_topic_transformer():
     n = int(len(X) * 0.9)
     idx = torch.randperm(len(X), generator=torch.Generator().manual_seed(0))
     model = TinyTransformer(len(vocab), len(text_data.TOPIC_CLASSES))
-    model = _train_torch(model, X[idx[:n]], y[idx[:n]], epochs=12, lr=5e-4,
-                         X_val=X[idx[n:]], y_val=y[idx[n:]], name="topic transformer")
+    model, history = _train_torch(model, X[idx[:n]], y[idx[:n]], epochs=12, lr=5e-4,
+                                  X_val=X[idx[n:]], y_val=y[idx[n:]], name="topic transformer")
     _save("topic_transformer", {"model": save_model(model), "vocab": vocab,
-                                "classes": text_data.TOPIC_CLASSES})
+                                "classes": text_data.TOPIC_CLASSES, "history": history})
 
 
 def train_cifar_cnn():
@@ -131,8 +134,8 @@ def train_cifar_cnn():
 
     X_tr, y_tr = to_tensor(train_ds)
     X_te, y_te = to_tensor(test_ds)
-    model = _train_torch(SmallCNN(), X_tr, y_tr, epochs=6, batch=256,
-                         X_val=X_te, y_val=y_te, name="CIFAR CNN")
+    model, history = _train_torch(SmallCNN(), X_tr, y_tr, epochs=6, batch=256,
+                                  X_val=X_te, y_val=y_te, name="CIFAR CNN")
 
     # 24 sample test images for the picker (2-3 per class, true label hidden in value).
     rng = np.random.default_rng(3)
@@ -149,7 +152,8 @@ def train_cifar_cnn():
             "true_label": CIFAR_CLASSES[targets[i]],
         })
     _save("cifar_cnn", {"model": save_model(model), "classes": CIFAR_CLASSES,
-                        "mean": mean.tolist(), "std": std.tolist(), "samples": samples})
+                        "mean": mean.tolist(), "std": std.tolist(), "samples": samples,
+                        "history": history})
 
 
 def train_pneumonia_cnn():
@@ -161,8 +165,8 @@ def train_pneumonia_cnn():
     y_tr = torch.tensor(train_ds.labels.squeeze(), dtype=torch.long)
     X_te = torch.tensor(test_ds.imgs, dtype=torch.float32).unsqueeze(1) / 255.0
     y_te = torch.tensor(test_ds.labels.squeeze(), dtype=torch.long)
-    model = _train_torch(GrayCNN(), X_tr, y_tr, epochs=5, batch=128,
-                         X_val=X_te, y_val=y_te, name="pneumonia CNN")
+    model, history = _train_torch(GrayCNN(), X_tr, y_tr, epochs=5, batch=128,
+                                  X_val=X_te, y_val=y_te, name="pneumonia CNN")
 
     rng = np.random.default_rng(5)
     labels = test_ds.labels.squeeze()
@@ -177,7 +181,8 @@ def train_pneumonia_cnn():
             "true_label": "pneumonia" if labels[i] == 1 else "normal",
         })
     _save("pneumonia_cnn", {"model": save_model(model),
-                            "classes": ["normal", "pneumonia"], "samples": samples})
+                            "classes": ["normal", "pneumonia"], "samples": samples,
+                            "history": history})
 
 
 def train_autoencoder():

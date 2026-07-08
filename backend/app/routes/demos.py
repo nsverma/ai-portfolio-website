@@ -1,8 +1,9 @@
 from fastapi import APIRouter, HTTPException
-from fastapi.responses import Response
+from fastapi.responses import FileResponse, Response
 from pydantic import BaseModel
 
 from app.demos import exports, registry
+from app.demos.registry import ARTIFACTS
 
 router = APIRouter(prefix="/api/demos", tags=["demos"])
 
@@ -37,6 +38,14 @@ def download_dataset(slug: str):
         media_type="text/csv",
         headers={"Content-Disposition": f'attachment; filename="{filename}"'},
     )
+
+
+@router.get("/{slug}/evaluation")
+def evaluation_plot(slug: str):
+    path = ARTIFACTS / "plots" / f"{slug}.png"
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="No evaluation plot for this project")
+    return FileResponse(path, media_type="image/png")
 
 
 @router.post("/{slug}/predict")

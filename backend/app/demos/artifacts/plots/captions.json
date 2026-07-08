@@ -1,0 +1,19 @@
+{
+  "house-price-prediction": "Points hugging the diagonal mean accurate predictions. The linear model explains 98% of price variance on unseen homes.",
+  "heart-disease-prediction": "The curve bows toward the top-left, giving ROC-AUC 0.78 \u2014 the model ranks a random sick patient above a random healthy one that often.",
+  "loan-approval-prediction": "The classic overfitting picture: train AUC keeps climbing with depth while validation AUC peaks at depth 6 and then decays as the tree memorizes noise.",
+  "customer-churn-prediction": "Validation AUC rises quickly up to ~50 trees, then flattens \u2014 after that, more trees only cost compute. 200 sits safely on the plateau.",
+  "customer-segmentation-kmeans": "The inertia elbow and the silhouette peak agree: k = 4 clusters \u2014 matching the four customer personas the segmentation demo reports.",
+  "credit-card-fraud-detection": "With only 7% fraud, accuracy would mislead \u2014 the PR curve shows the real trade-off. Average precision 0.27 vs 0.07 for random guessing.",
+  "email-spam-classification-svm": "Small C over-regularizes and underfits; accuracy climbs as C grows and plateaus \u2014 the margin/misclassification trade-off at the heart of SVMs.",
+  "movie-recommendation-knn": "Recommendation quality decays as k grows \u2014 each extra neighbor is less similar to the query movie. k = 5 keeps recommendations tight without being trivial.",
+  "text-classification-naive-bayes": "Out-of-fold predictions: 87% accuracy. The off-diagonal cells are the mistakes \u2014 false alarms (top right) vs missed spam (bottom left).",
+  "gene-expression-pca": "The first few components dominate: 21 of 50 gene dimensions capture 90% of the variance \u2014 the compression PCA is prized for.",
+  "handwritten-digit-recognition-ann": "Capacity sweep: 4 hidden units underfit badly; validation accuracy saturates around 64 units \u2014 bigger buys nothing but parameters.",
+  "anomaly-detection-autoencoders": "The autoencoder reconstructs healthy readings with tiny error; anything to the right of the dashed threshold is flagged as an anomaly.",
+  "sentiment-analysis-rnn-lstm": "Loss falls and validation accuracy climbs across 8 epochs \u2014 the RNN gradually learns word order and negation patterns.",
+  "sentiment-analysis-lstm-gru": "The LSTM converges faster and higher than the vanilla RNN on the same task \u2014 its gates handle long-range dependencies like negation better.",
+  "text-classification-transformers": "The Transformer reaches near-perfect validation accuracy within a few epochs \u2014 self-attention quickly locks onto topic-defining words.",
+  "image-classification-cnn": "Six epochs of real training on CIFAR-10: loss drops steadily while held-out accuracy climbs to ~75% \u2014 honest numbers for a small CNN without augmentation.",
+  "pneumonia-detection-transfer-learning": "Real medical imaging data: training loss decreases while validation accuracy reaches ~87% on held-out X-rays."
+}

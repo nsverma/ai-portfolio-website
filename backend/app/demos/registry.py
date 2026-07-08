@@ -711,10 +711,23 @@ def get_schema(slug: str) -> dict | None:
         return None
     from app.demos import exports
 
+    plot_path = ARTIFACTS / "plots" / f"{slug}.png"
     return {
         "slug": slug, "title": demo["title"], "cta": demo["cta"], "fields": fields,
         "dataset_url": f"/api/demos/{slug}/dataset" if exports.has_dataset(slug) else None,
+        "evaluation_url": f"/api/demos/{slug}/evaluation" if plot_path.exists() else None,
+        "evaluation_caption": _plot_captions().get(slug) if plot_path.exists() else None,
     }
+
+
+@lru_cache(maxsize=1)
+def _plot_captions() -> dict:
+    import json
+
+    path = ARTIFACTS / "plots" / "captions.json"
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text())
 
 
 def run_predict(slug: str, inputs: dict) -> dict:

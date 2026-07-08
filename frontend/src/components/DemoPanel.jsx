@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Download, FlaskConical, Loader2, RotateCcw } from 'lucide-react'
+import { Download, FlaskConical, LineChart, Loader2, RotateCcw } from 'lucide-react'
 import api from '../services/api'
 import { getDemoSchema, runDemoPredict } from '../services/demoService'
 
@@ -246,6 +246,23 @@ export default function DemoPanel({ slug }) {
               ))}
             </dl>
           )}
+        </div>
+      )}
+
+      {schema.evaluation_url && (
+        <div className="mt-8 border-t border-white/10 pt-6">
+          <div className="flex items-center gap-2 mb-1">
+            <LineChart size={18} className="text-accent-cyan" />
+            <h3 className="font-bold text-white">Model Evaluation</h3>
+          </div>
+          {schema.evaluation_caption && (
+            <p className="text-sm text-slate-400 mb-4">{schema.evaluation_caption}</p>
+          )}
+          <img
+            src={`${api.defaults.baseURL}${schema.evaluation_url}`}
+            alt="Model evaluation graph"
+            className="rounded-xl border border-slate-700 w-full max-w-3xl"
+          />
         </div>
       )}
     </div>
