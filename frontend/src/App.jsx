@@ -11,7 +11,7 @@ import AIAgent from './pages/AIAgent'
 import Automation from './pages/Automation'
 import ProjectDetail from './pages/ProjectDetail'
 import About from './pages/About'
-import Contact from './pages/Contact'
+// import Contact from './pages/Contact' // hidden for now
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
@@ -45,7 +45,8 @@ export default function App() {
           <Route path="/projects/:slug" element={<ProjectDetail />} />
 
           <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
+          {/* Contact page hidden for now — restore this route to bring it back */}
+          {/* <Route path="/contact" element={<Contact />} /> */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 

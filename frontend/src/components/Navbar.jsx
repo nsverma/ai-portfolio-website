@@ -85,9 +85,10 @@ export default function Navbar() {
           <Link to="/about" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-colors">
             About Me
           </Link>
+          {/* Contact page hidden for now — restore this link to bring it back
           <Link to="/contact" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-colors">
             Contact
-          </Link>
+          </Link> */}
         </div>
 
         <div className="hidden lg:flex items-center gap-3">
@@ -139,7 +140,8 @@ export default function Navbar() {
             </div>
           ))}
           <Link to="/about" onClick={() => setMobileOpen(false)} className="py-2 text-slate-300">About Me</Link>
-          <Link to="/contact" onClick={() => setMobileOpen(false)} className="py-2 text-slate-300">Contact</Link>
+          {/* Contact page hidden for now
+          <Link to="/contact" onClick={() => setMobileOpen(false)} className="py-2 text-slate-300">Contact</Link> */}
           <div className="flex gap-3 pt-3">
             {user ? (
               <>
