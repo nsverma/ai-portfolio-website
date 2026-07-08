@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { FlaskConical, Loader2, RotateCcw } from 'lucide-react'
+import { Download, FlaskConical, Loader2, RotateCcw } from 'lucide-react'
+import api from '../services/api'
 import { getDemoSchema, runDemoPredict } from '../services/demoService'
 
 const GRID = 8
@@ -201,11 +202,20 @@ export default function DemoPanel({ slug }) {
           </label>
         ))}
 
-        <div className="sm:col-span-2">
+        <div className="sm:col-span-2 flex flex-wrap items-center gap-3">
           <button type="submit" disabled={busy} className="btn-primary disabled:opacity-60">
             {busy ? <Loader2 size={16} className="animate-spin" /> : <FlaskConical size={16} />}
             {schema.cta}
           </button>
+          {schema.dataset_url && (
+            <a
+              href={`${api.defaults.baseURL}${schema.dataset_url}`}
+              className="btn-secondary"
+              title="Download the dataset this model was trained on"
+            >
+              <Download size={16} /> Training data (CSV)
+            </a>
+          )}
         </div>
       </form>
 

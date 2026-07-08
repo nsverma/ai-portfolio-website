@@ -709,7 +709,12 @@ def get_schema(slug: str) -> dict | None:
     except FileNotFoundError:
         # Artifact not trained yet — hide the demo instead of breaking the page.
         return None
-    return {"slug": slug, "title": demo["title"], "cta": demo["cta"], "fields": fields}
+    from app.demos import exports
+
+    return {
+        "slug": slug, "title": demo["title"], "cta": demo["cta"], "fields": fields,
+        "dataset_url": f"/api/demos/{slug}/dataset" if exports.has_dataset(slug) else None,
+    }
 
 
 def run_predict(slug: str, inputs: dict) -> dict:
