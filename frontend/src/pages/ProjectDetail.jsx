@@ -58,11 +58,12 @@ export default function ProjectDetail() {
       <p className="text-slate-400 mt-3 max-w-3xl">{project.short_description}</p>
 
       <div className="flex flex-wrap gap-3 mt-6">
+        {/* View Code button hidden for now — restore to bring it back
         {project.github_url && (
           <a href={project.github_url} target="_blank" rel="noreferrer" className="btn-secondary">
             <Github size={16} /> View Code
           </a>
-        )}
+        )} */}
         {project.demo_url && (
           <a href={project.demo_url} target="_blank" rel="noreferrer" className="btn-primary">
             <ExternalLink size={16} /> Live Demo
