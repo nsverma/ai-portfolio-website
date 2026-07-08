@@ -694,6 +694,11 @@ DEMOS = {
     },
 }
 
+# AI-agent demos live in their own module (app/demos/agents.py).
+from app.demos.agents import AGENT_DEMOS  # noqa: E402
+
+DEMOS.update(AGENT_DEMOS)
+
 
 def get_schema(slug: str) -> dict | None:
     demo = DEMOS.get(slug)
